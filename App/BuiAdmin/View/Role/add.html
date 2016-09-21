@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form action="__URL__/insert" id="form" method="post" class="definewidth m20">
+            <table class="table table-bordered table-hover m10">
+                <tr>
+                    <td class="tableleft">角色名称</td>
+                    <td><input type="text" name="role_name" class="form-control input-xlarge" placeholder="请输入角色名称"/></td>
+                </tr>
+                <tr>
+                    <td class="tableleft"></td>
+                    <td>
+                        <button type="submit" class="btn btn-primary" type="button">保存</button> &nbsp;&nbsp;
+                        <button type="button" class="btn btn-success" name="backid" onclick="javascript:window.location.href='<{:U(\'Role/index\')}>'">返回列表</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    
+<script>
+    //表单ajax提交
+    var $form = $('#form');
+    commonAjaxForm($($form).attr('action'),$form);
+</script>
+</body>
+</html>

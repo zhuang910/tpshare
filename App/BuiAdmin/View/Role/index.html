@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form class="form-inline definewidth m20" action="index.html" method="get">
+            角色名称：
+            <input type="text" name="role_name" id="role_name" class="abc input-default" placeholder="请输入角色名称" value="<{$role_name}>">&nbsp;&nbsp; 
+            <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; 
+            <button type="button" class="btn btn-success" onclick="javascript:window.location.href='<{:U(\'Role/add\')}>'">新增角色</button>
+        </form>
+        <table class="table table-bordered table-hover definewidth m10">
+            <thead>
+            <tr>
+                <th style="width: 4%" class="head0 nosort"><input type="checkbox" /></th>
+                <th>编号</th>
+                <th>角色名称</th>
+                <th>管理操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <volist name="role_list" id="role">
+                <tr>
+                    <td><span class="center"><input type="checkbox" /></span></td>
+                    <td><{$role.role_id}></td>
+                    <td><{$role.role_name}></td>
+                    <td>
+                        <a href="<{:U('Role/update',array('id'=>$role['role_id']))}>">编辑</a>
+                        <a href="javascript:void(0)" id="<{$role.role_id}>" onclick="ajaxDelete('__URL__/delete','{id:'+this.getAttribute('id')+'}')">删除</a>
+                        <a href="<{:U('Role/accessList',array('id'=>$role['role_id']))}>">分配权限</a>
+                    </td>
+                </tr>
+                </volist>
+                <tr>
+                    <td class="fy" colspan="15"><ul class="pagination"><{$page}></ul></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script>
+    
+</script>
+</body>
+</html>

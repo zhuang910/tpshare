@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form action="__URL__/edit" method="post" id="form" class="definewidth m20">
+            <table class="table table-bordered table-hover m10">
+                <tr>
+                    <td class="tableleft">节点名称</td>
+                    <td><input type="text" name="node_name" value="<{$node_info.node_name}>" class="form-control input-xlarge" placeholder="请输入节点名称"/></td>
+                </tr>
+                <tr>
+                    <td class="tableleft">节点URL</td>
+                    <td><input type="text" name="node_url" value="<{$node_info.node_url}>" class="form-control input-xlarge" placeholder="请输入节点URL" /></td>
+                </tr>
+                <tr>
+                    <td class="tableleft">是否显示</td>
+                    <td>
+                        <select name="is_show" class="form-control input-medium">
+                            <option <if condition="$node_info.is_show eq 1">selected</if> value="1">显示</option>
+                            <option <if condition="$node_info.is_show eq 2">selected</if> value="2">隐藏</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableleft">父节点</td>
+                    <td>
+                        <select name="pid" class="form-control input-medium">
+                            <option value="0">无</option>
+                            <volist name="node_options" id="noptions">
+                                <optgroup label="<{$noptions.module_name}>">
+                                    <volist name="noptions.nodes" id="node">
+                                        <option <if condition="$node_info['pid'] eq $node['node_id']">selected</if> value="<{$node.node_id}>"><{$node.node_name}></option>
+                                    </volist>
+                                </optgroup>
+                            </volist>
+
+                          </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="10%" class="tableleft">父级菜单</td>
+                    <td>
+                        <select name="module_id" class="form-control input-medium">
+                        <option value="0">请选择菜单</option>
+                        <volist name="module_options" id="moptions">
+                            <optgroup label="<{$moptions.module_name}>">
+                                <volist name="moptions.child_module_list" id="child_module">
+                                    <option <if condition="$node_info['module_id'] eq $child_module['module_id']">selected</if> value="<{$child_module.module_id}>"><{$child_module.module_name}></option>
+                                </volist>
+                            </optgroup>
+                        </volist>
+                      </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableleft"></td>
+                    <td>
+                        <input type='hidden' name="node_id" value="<{$node_info.node_id}>" />
+                        <button type="submit" class="btn btn-primary" type="button">保存</button> &nbsp;&nbsp;
+                        <button type="button" class="btn btn-success" name="backid" onclick="javascript:window.location.href='<{:U(\'Node/index\')}>'">返回列表</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+<script>
+    //表单ajax提交
+    var $form = $('#form');
+    commonAjaxForm($($form).attr('action'),$form);
+</script>
+</body>
+</html>

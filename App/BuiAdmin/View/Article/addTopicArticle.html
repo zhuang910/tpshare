@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form action="__URL__/addTopicArticle" id="form" method="post" class="definewidth m20">
+            <table class="table table-bordered table-hover m10">
+                <tr>
+                    <td class="tableleft">标题</td>
+                    <td><input type="text" name="title" class="form-control input-xlarge" placeholder="请输入文章标题"/></td>
+                </tr>
+                <tr>
+                    <td class="tableleft">是否显示</td>
+                    <td>
+                        <select name="is_show" class="form-control input-medium">
+                            <option value="1">显示</option>
+                            <option value="2">隐藏</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableleft">所属专题</td>
+                    <td>
+                        <select name="cat_id" class="form-control input-medium">
+                            <option value="0">无</option>
+                            <volist name="topic_options" id="toptions">
+                                <optgroup label="<{$toptions.name}>">
+                                    <volist name="toptions.child" id="topic">
+                                        <option value="<{$topic.id}>"><{$topic.name}></option>
+                                    </volist>
+                                </optgroup>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="10%" class="tableleft">文章内容</td>
+                    <td>
+                        <script type="text/plain" id="content" name="content" style="width: 100%;min-height: 300px;"></script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableleft"></td>
+                    <td>
+                        <button type="submit" class="btn btn-primary">保存</button> &nbsp;&nbsp;
+                        <button type="button" class="btn btn-success" name="backid" onclick="javascript:window.location.href='<{:U(\'Article/index\')}>'">返回列表</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    
+<script>
+    //表单ajax提交
+    var $form = $('#form');
+    commonAjaxForm($($form).attr('action'),$form);
+    
+    UE.getEditor('content',{
+        autoHeight: false,
+    });
+</script>
+</body>
+</html>

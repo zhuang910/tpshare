@@ -1,0 +1,474 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>享得</title>
+
+    <include file="Common:head" />
+    
+    <link href="__PUBLIC__/select2/select2.css" rel="stylesheet"/>
+    <!--<link href="__ADMIN_BUIADMIN__/bui/css/bs3/dpl.css" rel="stylesheet" type="text/css" />-->
+    <!--<link href="__ADMIN_BUIADMIN__/bui/css/bs3/bui-min.css" rel="stylesheet" type="text/css" />-->
+
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+    <script src="__PUBLIC__/select2/select2.js"></script>
+    
+    <script type="text/javascript" src="__ADMIN_BUIADMIN__/js/bui-min.js"></script>
+    
+    <script type="text/javascript" src="__PUBLIC__/js/functions.js"></script>
+    
+    <script src="__PUBLIC__/ueditor1_4_3_1/ueditor.config.js"></script>
+    <script src="__PUBLIC__/ueditor1_4_3_1/ueditor.all.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor1_4_3_1/lang/zh-cn/zh-cn.js"></script>
+    <style>
+        .content-album{
+            padding: 0;
+            margin-top: 20px;
+            margin-left: 18px;
+            width: 218px;
+            background: #fff none repeat scroll 0 0;
+            border-color: #ebebeb #ebebeb #cecece;
+            border-image: none;
+            border-style: solid;
+            border-width: 1px;
+            box-shadow: 0 1px 1px #e5e5e5;
+            float: left;
+        }
+        .content-album .content-album-cover {
+            background: #f3f3f3 none repeat scroll 0 0;
+            height: 218px;
+            overflow: hidden;
+            position: relative;
+            width: 218px;
+        }
+        .content-album-cover .empty-album {
+            height: 218px;
+            width: 218px;
+            background: #f3f3f3 url("http://tb1.bdstatic.com/xiangce/webroot/static/album/index/images/album-empty_331d4c4.png") no-repeat scroll 50% 43%;
+            margin: 0 auto;
+        }
+        .content-album-cover .empty-album span {
+            color: #bebebe;
+            left: 39%;
+            position: relative;
+            top: 56%;
+        }
+        .content-album-picture-total {
+            margin-left: 149px;
+        }
+        .content-album-picture-total {
+            background: rgba(0, 0, 0, 0) url("http://tb1.bdstatic.com/xiangce/webroot/static/album/index/images/album-total-bg_6307143.png") repeat scroll 0 0;
+            color: #fff;
+            font-family: "宋体";
+            font-size: 12px;
+            height: 26px;
+            margin-bottom: 13px;
+            margin-left: 159px;
+            margin-top: -50px;
+            padding-top: 2px;
+            position: relative;
+            text-align: center;
+            width: 70px;
+            z-index: 10;
+        }
+
+        .content-album-picture-total span {
+            color: #fff;
+            font-family: Georgia;
+            font-size: 18px;
+            padding-right: 3px;
+        }
+        .content-album-del {
+            background-color: #000;
+            border-radius: 3px;
+            height: 23px;
+            padding: 0 5px;
+            position: absolute;
+            right: 5px;
+            top: -30px;
+            transition: top 300ms ease 0s;
+        }
+
+        .content-album-del.ico-show{
+            top:5px;
+        }
+
+        .content-album-del .modify {
+            background-position: -5px 0;
+        }
+        .content-album-del .delete {
+            background-position: -28px 0;
+        }
+        .content-album-del a {
+            background-image: url("http://tb2.bdstatic.com/xiangce/webroot/static/album/index/images/album-del-modify_5d90d17.png");
+            display: inline-block;
+            height: 23px;
+            transition: all 0.2s ease-out 0s;
+            width: 23px;
+        }
+        .content-album-info {
+            padding-left: 10px;
+            padding-top: 2px;
+        }
+        .content-album-name {
+            color: #333;
+            display: block;
+            font-size: 16px;
+            height: 30px;
+            line-height: 30px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 180px;
+        }
+        .yahei {
+            font-family: "Microsoft Yahei","微软雅黑",Arial,STHeiti,Tahoma,Helvetica;
+        }
+        .content-album-info span {
+            display: block;
+        }
+        .content-album-date {
+            color: #bebebe;
+        }
+        .content-album .open {
+            background-position: 0 -19px;
+        }
+        .scope-icon, .scope-icon-empty {
+            background: rgba(0, 0, 0, 0) url("http://tb1.bdstatic.com/xiangce/webroot/static/album/index/images/new-scope_0915034.png") repeat scroll 0 0;
+            bottom: 8px;
+            cursor: pointer;
+            height: 22px;
+            position: absolute;
+            right: 8px;
+            width: 22px;
+        }
+
+        .content-album .content-album-cover img {
+            height: 218px;
+            width: 218px;
+            display: block;
+            transition: all 0.3s ease 0s;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+    
+</head>
+<body>
+    <include file="Common:head_nav" />
+
+    <div id="wrap"><!-- wrap -->
+        <div id="page-main" class="container art-container">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <div class="row">
+                        <nav class="navbar navbar-default">
+                            <div class="container-fluid">
+                                <!-- Brand and toggle get grouped for better mobile display -->
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <a class="navbar-brand" href="#">用户中心</a>
+                                </div>
+
+                                <!-- Collect the nav links, forms, and other content for toggling -->
+                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                    <ul class="nav navbar-nav">
+                                        <li><a href="<{:U('User/article')}>">我的文章</a></li>
+                                        <li><a href="<{:U('User/category')}>">我的分类</a></li>
+                                        <li class="active"><a href="<{:U('User/album')}>">我的相册<span class="sr-only">(current)</span></a></li>
+                                        <li><a href="<{:U('User/profile')}>">个人信息</a></li>
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+                            </div><!-- /.container-fluid -->
+                        </nav>
+
+                        <form class="form-inline definewidth" action="" method="get" style="margin-left:20px;">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#albumModal">创建相册</button>
+                            <button type="button" class="btn btn-success" onclick="location.href='/album/upload'">上传图片</button>
+                        </form>
+
+                        <div style="padding: 0 20px;">
+                            <div class="row" id="album_list">
+                                <volist name="album_list" id="album">
+                                <div class="col-md-6 col-sm-3 content-album" data-sign="<{$album.id}>">
+                                    <div class='content-album-cover'>
+                                        <if condition="$album['picture_count'] gt 0">
+                                            <a href="/album/picture?album_id=<{$album.id}>">
+                                        <else />
+                                            <a href="/album/upload?album_id=<{$album.id}>">
+                                        </if>
+                                            <if condition="$album['picture_count'] gt 0">
+                                                <img src="__UPLOADS__<{$album.title_picture}>" alt="<{$album.name}>" />
+                                            <else />
+                                                <div class='empty-album'>
+                                                    <span>添加照片</span>
+                                                </div>
+                                            </if>
+
+                                            <div class='content-album-picture-total'>
+                                                <span><{$album.picture_count}></span>张
+                                            </div>
+                                        </a>
+                                        <div class='content-album-del'>
+                                            <a class='modify' title='编辑' href='javascript:;' data-toggle="modal" data-target="#modiModal"></a>
+                                            <a class='delete' title='删除' href='javascript:;' data-toggle="modal" data-target="#delModal"></a>
+                                        </div>
+                                    </div>
+                                    <div class='content-album-info'>
+                                        <a class='content-album-name yahei' title='test' <if condition="$album['picture_count'] gt 0">href='/album/picture?album_id=<{$album.id}>'<else />href='/album/upload?album_id=<{$album.id}>'</if>><{$album.name}></a>
+                                        <span class='content-album-date'><{$album.create_time|date="Y-m-d",###}></span>
+                                    </div>
+                                    <a <if condition="$album['is_public'] eq 1"> class="modify scope-icon open" <else /> class="modify scope-icon lock"</if> <if condition="$album['is_public'] eq 1"> title="全部公开" <else />title="全部私有"</if> data-toggle="modal" data-target="#modiModal" ></a>
+                                </div>
+                                </volist>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--/.col-xs-12.col-sm-9-->
+            </div><!--/row-->
+        </div> <!-- /container -->
+
+        <!-- 模态框（Modal） add -->
+        <div class="modal fade" id="albumModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            创建相册
+                        </h4>
+                    </div>
+                    <form action="<{:U('Album/addByAjax')}>" method="POST" id="album_form" novalidate class="form-horizontal wt-form">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-3 hidden-xs control-label">相册名称：</label>
+                                <div class="col-sm-6 col-xs-12">
+                                    <input class="form-control" type="text" placeholder="请输入相册名称" name="name" required="required"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 hidden-xs control-label">访问权限：</label>
+                                <div class="col-sm-6 col-xs-12">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="is_public" id="is_public1" value="1" checked> 所有人可见
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="is_public" id="is_public2" value="2"> 仅自己可见
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"> 关闭 </button>
+                            <button type="submit" class="btn btn-primary"> 创建 </button>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+
+        <!-- 模态框（Modal） del-->
+        <div class="modal fade" id="delModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            确定要删除该相册吗？
+                        </h4>
+                    </div>
+                    <form action="<{:U('Album/delByAjax')}>" method="POST" id="album_del_form" novalidate class="form-horizontal wt-form">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="col-sm-8 col-xs-12">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="del_type" id="del_type1" value="1" checked> 照片随相册一起删除
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="del_type" id="del_type2" value="2" style="margin-top:10px;"> 移动到
+                                            <select id="to_album_id" name="to_album_id" class="form-control" style="margin-left: 2px;width: 150px;display: inline;">
+
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="album_id" id="album_id" value="" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal"> 关闭 </button>
+                            <button type="submit" class="btn btn-primary"> 删除 </button>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+
+        <!-- 模态框（Modal）modify -->
+        <div class="modal fade" id="modiModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            编辑相册
+                        </h4>
+                    </div>
+                    <form action="<{:U('Album/updateByAjax')}>" method="POST" id="album_modi_form" novalidate class="form-horizontal wt-form">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-3 hidden-xs control-label">相册名称：</label>
+                                <div class="col-sm-6 col-xs-12">
+                                    <input class="form-control" type="text" placeholder="请输入相册名称" name="name" id="album_name" required="required"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 hidden-xs control-label">访问权限：</label>
+                                <div class="col-sm-6 col-xs-12" id="is_public">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="is_public" id="is_public1" value="1"> 所有人可见
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="is_public" id="is_public2" value="2"> 仅自己可见
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="album_id" id="album_id" value="" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal"> 关闭 </button>
+                            <button type="submit" class="btn btn-primary"> 保存 </button>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <script>
+        $(function (){
+            var album_del = $(".delete");
+            var album_modi = $(".modify");
+            var album_del_mod = $("#delModal");
+            var album_modi_mod = $("#modiModal");
+            $('.content-album').mouseover(function(){
+
+                $(this).children('.content-album-cover').children('.content-album-del').addClass('ico-show');
+            });
+            $('.content-album').mouseout(function(){
+
+                $(this).children('.content-album-cover').children('.content-album-del').removeClass('ico-show');
+            });
+
+            var $album_form = $('#album_form');
+            $($album_form).ajaxForm({
+                url:$($album_form).attr('action'),
+                type:"POST",
+                dataType:"json",
+                success:function(r,stat,xhr,form){
+                    if(r.status) {
+                        alert(r.info);
+                        $('#albumModal').modal('hide');
+                        window.location.reload();
+                    }else if(r.status == 0){
+                        alert(r.info);
+                    }
+                }
+            });
+
+            $(album_del).click(function(){
+                var a = $(this),
+                i = a.parents(".content-album");
+                album_del_mod.find("#album_id").attr('value', i.attr("data-sign"));
+                jQuery.ajax({
+                    dataType:"json",
+                    type:"POST",
+                    url:"/Album/getAlbumSelectByAjax",
+                    success:function(r,stat,xhr,form){
+                        if(r.status) {
+                            album_del_mod.find("#to_album_id").html(r.data.album_select);
+                        }else if(r.status == 0){
+                            alert(r.info);
+                            window.location.reload();
+                        }
+                    }
+                });
+            });
+
+            var $album_del_form = $('#album_del_form');
+            $album_del_form.ajaxForm({
+                url:$album_del_form.attr('action'),
+                type:"POST",
+                dataType:"json",
+                success:function(r,stat,xhr,form){
+                    if(r.status) {
+                        alert(r.info);
+                        album_del_mod.modal('hide');
+                        window.location.reload();
+                    }else if(r.status == 0){
+                        alert(r.info);
+                    }
+                }
+            });
+
+
+            //==================
+            $(album_modi).click(function(){
+                var a = $(this),
+                i = a.parents(".content-album");
+                album_modi_mod.find("#album_id").attr('value', i.attr("data-sign"));
+                jQuery.ajax({
+                    dataType:"json",
+                    type:"POST",
+                    url:"/Album/getInofByAjax",
+                    data:{'album_id':i.attr("data-sign")},
+                    success:function(r,stat,xhr,form){
+                        if(r.status) {
+                            album_modi_mod.find("#album_name").val(r.data.album_info.name);
+                            album_modi_mod.find("#is_public").html(r.data.is_public_select);
+                        }else if(r.status == 0){
+                            alert(r.info);
+                            window.location.reload();
+                        }
+                    }
+                });
+            });
+
+            var $album_modi_form = $('#album_modi_form');
+            $album_modi_form.ajaxForm({
+                url:$album_modi_form.attr('action'),
+                type:"POST",
+                dataType:"json",
+                success:function(r,stat,xhr,form){
+                    if(r.status) {
+                        alert(r.info);
+                        album_modi_mod.modal('hide');
+                        window.location.reload();
+                    }else if(r.status == 0){
+                        alert(r.info);
+                    }
+                }
+            });
+
+        });
+    </script>
+<include file="Common:foot" />

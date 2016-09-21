@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title><{$album_info.name}>的图片_享得文章</title>
+
+    <include file="Common:head" />
+      <script type="text/javascript" src="__PUBLIC__/js/functions.js"></script>
+      <link rel="stylesheet" href="__HOME__/css/bui-dpl.css" type="text/css" />
+      <!--<link href="__ADMIN_BUIADMIN__/bui/css/bs3/dpl.css" rel="stylesheet" type="text/css" />-->
+      <link href="__ADMIN_BUIADMIN__/bui/css/bs3/bui-min.css" rel="stylesheet" type="text/css" />
+      <script type="text/javascript" src="__ADMIN_BUIADMIN__/js/bui-min.js"></script>
+
+      <link rel="stylesheet" type="text/css" href="__PUBLIC__/lightGallery/css/normalize.css" />
+      <link rel="stylesheet" type="text/css" href="__PUBLIC__/lightGallery/css/default.css">
+      <link href="__PUBLIC__/lightGallery/dist/css/lightgallery.css" rel="stylesheet">
+      <script src="__PUBLIC__/lightGallery/dist/js/lightgallery.js"></script>
+      <script src="__PUBLIC__/lightGallery/dist/js/lg-fullscreen.js"></script>
+      <script src="__PUBLIC__/lightGallery/dist/js/lg-thumbnail.js"></script>
+      <script src="__PUBLIC__/lightGallery/dist/js/lg-video.js"></script>
+      <script src="__PUBLIC__/lightGallery/dist/js/lg-autoplay.js"></script>
+      <script src="__PUBLIC__/lightGallery/dist/js/lg-zoom.js"></script>
+      <script src="__PUBLIC__/lightGallery/dist/js/lg-hash.js"></script>
+      <script src="__PUBLIC__/lightGallery/dist/js/lg-pager.js"></script>
+      <script src="__PUBLIC__/lightGallery/lib/jquery.mousewheel.min.js"></script>
+
+    <!--瀑布流插件-->
+    <script src="__PUBLIC__/waterfall/waterfall.js"></script>
+    <style>
+        #picture_list .item-line {
+            border-color: #e6e6e6;
+        }
+        #picture_list .item-line {
+            border-style: solid;
+            border-width: 0 1px 0 0;
+            display: inline-block;
+            font-size: 0;
+            height: 11px;
+            line-height: 0;
+            margin:0 4px;
+            overflow: hidden;
+            vertical-align: -3px;
+            width: 1px;
+        }
+    </style>
+  </head>
+ <body>
+    <include file="Common:head_nav" />
+
+    <div id="wrap"><!-- wrap -->
+        <div id="page-main" class="container art-container">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <div class="row">
+                    <ol class="breadcrumb" style="margin-bottom:2px;">
+                        <li><a href="<{:U('User/article')}>">用户中心</a></li>
+                        <li><a href="<{:U('User/album')}>">我的相册</a></li>
+                        <li class="active">图片列表</li>
+                    </ol>
+
+                    <div class="padding20">
+                        <nav class="navbar navbar-default">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <a class="navbar-brand" href="javascript:;"><strong><{$album_info.name}></strong><span style="font-size:10px;">(<{$picture_count}>张)</span></a>
+                                </div>
+                                <!-- Collect the nav links, forms, and other content for toggling -->
+                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                    <ul class="nav navbar-nav">
+                                        <li>
+                                            <button type="button" class="btn btn-success navbar-btn" onclick="location.href='/album/upload?album_id=<{$album_info.album.id}>'">上传图片</button>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择相册 <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <volist name="album_select" id="album" empty="">
+                                                    <li><a href="<{:U('Album/picture',array('album_id'=>$album['id']))}>"><{$album.name}></a></li>
+                                                </volist>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">浏览方式 <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="<{:U('Album/picture',array('album_id'=>$album_id,'view_type'=>1))}>">瀑布流</a></li>
+                                                <li><a href="<{:U('Album/picture',array('album_id'=>$album_id,'view_type'=>2))}>">图片画廊</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div><!-- /.navbar-collapse -->
+                            </div><!-- /.container-fluid -->
+                        </nav>
+
+                        <div class="row">
+                            <div class="row" style="min-height: 300px;text-align: center;" id="picture_list">
+                                <volist name="picture_list" id="picture" empty="暂时没有图片">
+                                    <div pid="<{$picture.id}>" class="cell" data-src="__UPLOADS__<{$picture.pic_url}>">
+                                        <a target="_blank" href="__UPLOADS__<{$picture.pic_url}>"><img src="__UPLOADS__<{$picture.pic_url}>" /></a>
+                                        <div style="text-align: right;height: 30px;line-height: 30px;">
+                                            <span class="item-line"></span>
+                                            <a id="<{$picture.id}>" title="下载"  href="<{:U('Album/downPic',array('id'=>$picture['id']))}>" >
+                                            下载
+                                            </a>
+                                            <span class="item-line"></span>
+                                            <a id="<{$picture.id}>" title="删除"  href="javascript:;" onclick="ajaxDelete('<{:U(\'Album/delPic\')}>','{id:'+this.getAttribute('id')+',album_id:<{$album_id}>}')">
+                                            删除
+                                            </a>
+                                        </div>
+                                    </div>
+                                </volist>
+                            </div>
+                        </div>
+                    </div><!--/row-->
+                </div>
+            </div><!--/.col-xs-12.col-sm-9-->
+        </div><!--/row-->
+    </div> <!-- /container -->
+    </div>
+
+    <script type="text/javascript">
+        var view_type = "<{$view_type}>";
+        $(document).ready(function(){
+            if(view_type == 2) {
+                $('#picture_list').lightGallery();
+            }
+        });
+    </script>
+
+    <script>
+        $(function(){
+            //切换相册
+            $("#album_id").change(function(){
+                var album_id = $(this).val();
+                window.location.href='/album/picture?album_id='+album_id;
+            });
+
+            var album_id = "<{$album_id}>";
+            var lastid = "<{$lastid}>";
+            var flag = true; //加锁，防止重复加载
+
+            //无限加载图片
+            var opt={
+                getResource:function(index,render){//index为已加载次数,render为渲染接口函数,接受一个dom集合或jquery对象作为参数。通过ajax等异步方法得到的数据可以传入该接口进行渲染，如 render(elem)
+                    var html='';
+                    var maxid = lastid ? lastid : $("#picture_list").children("div:last-child").children("div:last-child").attr('pid');
+                    if(flag) {
+                    flag = false;
+                        $.ajax({
+                            dataType:"json",
+                            type:"POST",
+                            async: false,
+                            url:"/Album/getMorePictures",
+                            data:{maxid:maxid,album_id:album_id},
+                            success:function(r,stat,xhr,form){
+                                if(r.status && r.data.length > 0) {
+                                    html = r.data;
+                                    lastid = r.lastid; //获取最后一次加载的图片
+                                    flag = true;
+                                }else{
+                                    alert('已全部加载完！');
+                                }
+                            }
+                        });
+                        return $(html);
+                    }
+                },
+                auto_imgHeight:true,
+                insert_type:1
+            }
+
+            if(flag) {
+                $('#picture_list').waterfall(opt);
+            }
+        });
+    </script>
+<include file="Common:foot" />

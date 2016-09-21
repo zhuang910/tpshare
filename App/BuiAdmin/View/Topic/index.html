@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form class="form-inline definewidth m20" action="" method="get">
+            专题名称：
+            <input type="text" name="name" id="name" class="abc input-default" placeholder="请输入专题名称" value="<{$name}>">&nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
+            <button type="button" class="btn btn-success" onclick="javascript:window.location.href='<{:U(\'Topic/add\')}>'">新增专题</button>
+        </form>
+
+        <table class="table table-bordered table-hover definewidth m10" id="list-table">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>专题名称</th>
+                    <th>父级专题</th>
+                    <th>管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="topic_list" id="topic">
+                <tr>
+                    <td><{$topic.id}></td>
+                    <td><{$topic.name}></td>
+                    <td></td>
+                    <td>
+                        <a href="<{:U('Topic/update',array('id'=>$topic['id']))}>">编辑</a>
+                        <a href="javascript:void(0)" id="<{$topic.id}>" onclick="ajaxDelete('__URL__/delete','{id:'+this.getAttribute('id')+'}')">删除</a>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+    </script>
+</body>
+</html>

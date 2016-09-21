@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta property="qc:admins" content="54002672512566655641" />
+    <meta property="wb:webmaster" content="e0163ef5559e8be9" />
+    <title>享得</title>
+
+    <include file="Common:head" />
+  </head>
+  <body>
+    <include file="Common:head_nav" />
+
+    <div id="wrap"><!-- wrap -->
+        <div id="page-main" class="container art-container">
+            <div class="row">
+                <div class="col-md-9 col-lg-9 col-sm-9">
+                    <div class="row padding020">
+                        <volist name="article_list" id="article" empty="暂时没有文章">
+                          <div class="article">
+                            <h4><a href="<{:U(\'Article/view/\',array('id'=>$article['article_id']))}>"><{$article.title}></a></h4>
+                            <div class="article-meta">
+                                <div class="float-left">
+                                <a class="avatar avatar-30" size="30" name="true"
+                                   title="<{$article.real_name}>" href="javascript:;">
+                                    <span class="avatar-face">
+                                        <if condition="$article['portrait_subname']">
+                                            <img src="__UPLOADS__/portrait/<{$article.portrait_subname}>/50_50<{$article.portrait_ext}>" alt="<{$article.real_name}>">
+                                        <else />
+                                            <img src="__HOME__/images/50_50.png" alt="<{$article.real_name}>">
+                                        </if>
+                                    </span>
+                                    <span class="avatar-name"><{$article.real_name}></span>
+                                </a>
+                                 |
+                                <a class="category-name" href="<{:U(\'Search/index/\',array('cat_name'=>$article['cat_name']))}>"><{$article.cat_name}></a>
+                                 |
+                                 <span class="published"><{$article.add_time|date="Y-m-d H:i",###}></span>
+                                </div>
+                                <if condition = "$article['user_id'] eq $Think.session.es_user.user_id ">
+                                    <div class="float-right">
+                                    <a href="<{:U(\'Article/update/\',array('id'=>$article['article_id']))}>">编辑</a>
+                                    </div>
+                                </if>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="article-summary article-markdown">
+                                <{$article.content|msubstr=0,300,'utf-8',true}>
+                            </div>
+                            <div class="article-footer">
+                                <a href="<{:U(\'Article/view/\',array('id'=>$article['article_id']))}>">阅读全文<i class="icon-double-angle-right"></i></a>
+                            </div>
+                        </div><!--/.col-xs-6.col-lg-12-->
+                        </volist>
+                        <url class="pagination"><{$page}></url>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-lg-3 col-sm-3" style="border-left: 1px solid #ddd;">
+                    <if condition="$Think.session.es_user.user_id eq 18">
+                    <div class="box">
+                        <div style="text-align: center;vertical-align: middle;padding:20px 0">
+                            <a href="<{:U(\'Topic/index/\')}>" class="btn btn-primary btn-lg active" role="button">专题中心</a>
+                        </div>
+                    </div>
+                    </if>
+                    <div class="box">
+                        <div class="cell">
+                            <strong>热搜分类</strong>
+                        </div>
+                        <div class="inner">
+                            <volist name="hot_cat" id="cat">
+                                <a href="<{:U(\'Search/index/\',array('cat_name'=>$cat['category_name']))}>"><{$cat.category_name}></a>
+                                <div class="height5"> </div>
+                            </volist>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="cell">
+                            <strong>关注微信</strong>
+                        </div>
+                        <div class="inner">
+                            <img src="__HOME__/images/contact-code.png">
+                        </div>
+                    </div>
+                </div>
+
+            </div><!--/row-->
+        </div> <!-- /container -->
+    </div> <!-- /wrap -->
+<include file="Common:foot" />

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form class="form-inline definewidth m20" action="" method="get">
+            菜单名称：
+            <input type="text" name="module_name" value="<{$module_name}>" id="module_name" class="form-control input-xlarge" placeholder="请输入菜单名称" >&nbsp;&nbsp; 
+            <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; 
+            <button type="button" class="btn btn-success" onclick="javascript:window.location.href='<{:U(\'Module/add\')}>'">新增菜单</button>
+        </form>
+        <table class="table table-bordered table-hover definewidth m10">
+            <thead>
+                <tr>
+                    <th style="width: 4%" class="head0 nosort"><input type="checkbox" /></th>
+                    <th>编号</th>
+                    <th>菜单名称</th>
+                    <th>管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="module_list" id="module">
+                <tr>
+                    <td><span class="center"><input type="checkbox" /></span></td>
+                    <td><{$module.module_id}></td>
+                    <td><{$module.module_name}></td>
+                    <td>
+                        <a href="<{:U('Module/update',array('id'=>$module['module_id']))}>">编辑</a>
+                        <a href="javascript:void(0)" id="<{$module.module_id}>" onclick="ajaxDelete('__URL__/delete','{id:'+this.getAttribute('id')+'}')">删除</a>
+                    </td>
+                </tr>
+                </volist>
+                <tr>
+                    <td class="fy" colspan="15"><div class="pagination"><{$page}></div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+  
+    </script>
+</body>
+</html>

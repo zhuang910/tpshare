@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Common:head" />
+<!--<script type="text/javascript" src="__JS__/plugins/jquery.dataTables.min.js"></script>-->
+<!--<script type="text/javascript" src="__JS__/custom/tables.js"></script>-->
+</head>
+
+<body class="withvernav">
+<div class="bodywrapper">
+    <include file="Common:topHeader" />
+    <include file="Common:headerMenu" />
+    <include file="Common:leftMenu" />
+        
+    <div class="centercontent">
+        <div class="contenttitle2" style="width: 100%;">
+            <div class="title_left" style="float:left;"><h3>权限分配</h3></div>
+            <div class="title_right" style="float: right;">
+                <span><a href="__MODULE__<{:U('Role/index')}>" >角色列表</a></span>
+            </div>
+        </div><!--contenttitle-->
+        <div class="content">
+            <form action="__URL__/changeAccess" id="form" class="form-horizontal" method="post" >
+                <p>你正在为用户组：<b><{$role_info.role_name}></b> 分配权限 。</p>
+                <div class="form-group">
+                    <volist name="access_list" id="level1">
+                    <ul class="hornav">
+                        <li class="current">
+                            <a href="javascript:void(0)"><label><{$level1.module_name}></label></a>
+                        </li>
+                    </ul>
+                    <table width="95%" border="0" cellspacing="0" cellpadding="0" class="tab">
+                        <volist name="level1['module_list']" id="level2">
+                            <tr>
+                                <td style="padding: 10px 10px 10px 30px; font-size: 14px;"><label><input level="2" type="checkbox" obj="node_<{$level1.module_id}>_<{$level2.module_id}>" value="node_2_<{$level2.module_id}>"/><{$level2.module_name}></label></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 50px;">
+                                    <volist name="level2['node_list']" id="level3">
+                                        <input name="access[]" <in name="level3.node_id" value="$role_info['access_list']">checked="checked" </in> level="3" type="checkbox" obj="node_<{$level1.module_id}>_<{$level2.module_id}>_<{$level3.node_id}>" value="<{$level3.node_id}>"/> <{$level3.node_name}> &nbsp;&nbsp;&nbsp;
+                                    </volist>
+                                </td>
+                            </tr>
+                        </volist>
+                            
+                    </table>
+                    </volist>
+                 </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type='hidden' name="role_id" value="<{$role_info.role_id}>" />
+                       <button class="submit btn btn-primary">保 存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+	</div><!-- centercontent -->
+        <include file="Common:foot" />
+</div><!--bodywrapper-->
+
+<script>
+    var $form = jQuery('#form');
+    jQuery($form).ajaxForm({
+        dataType:"json",
+        success:function(r,stat,xhr,form){
+            if(r.status) {
+                alert(r.info);
+                if(r.url&&r.url!=''){
+                setTimeout(function(){
+                    top.window.location.href=r.url;
+                },1000);
+                }
+            }else if(r.status == 0){
+                alert(r.info); 
+            }
+        }
+    });
+    
+    //初始化数据
+    function setAccess(){
+        //清空所有已选中的
+        //jQuery("input[type='checkbox']").prop("checked",false);
+        //数据格式：
+        //节点ID：node_id；1，项目；2，模块；3，操作
+        //节点级别：level；
+        //父级节点ID：pid
+        //alert('<{$role_info.access_module}>')
+        var access=eval("("+'<{$role_info.access_module}>'+")");//jQuery.parseJSON('<{$role_info.access_module}>');
+        var access_length=access.length;
+        if(access_length>0){
+            for(var i=0;i<access_length;i++){
+                jQuery("input[type='checkbox'][value='"+access[i]['val']+"']").prop("checked","checked");
+            }
+        }
+    }
+    
+    jQuery(function(){
+                //执行初始化数据操作
+                setAccess();
+                //为项目时候全选本项目所有操作
+                //
+                //为模块时候全选本模块所有操作
+               jQuery("input[level='2']").click(function(){
+                    var obj=jQuery(this).attr("obj")+"_";
+                    jQuery("input[obj^='"+obj+"']").prop("checked",jQuery(this).prop("checked"));
+                    //分隔obj为数组
+                    var tem=obj.split("_");
+                    //将当前模块父级选中
+                    if(jQuery(this).prop('checked')){
+                        jQuery("input[obj='node_"+tem[1]+"']").prop("checked","checked");
+                    }
+                });
+                //为操作时只要有勾选就选中所属模块和所属项目
+                jQuery("input[level='3']").click(function(){
+                    var tem=jQuery(this).attr("obj").split("_");
+                    if(jQuery(this).prop('checked')){
+                        //所属项目
+                        jQuery("input[obj='node_"+tem[1]+"']").prop("checked","checked");
+                        //所属模块
+                        jQuery("input[obj='node_"+tem[1]+"_"+tem[2]+"']").prop("checked","checked");
+                    }
+                });
+            });
+</script>
+
+</body>
+</html>

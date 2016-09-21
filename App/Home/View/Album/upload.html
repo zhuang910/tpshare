@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>享得</title>
+
+    <include file="Common:head" />
+
+    <!--webuploader-->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/webuploader-0.1.5/webuploader.css">
+     <link rel="stylesheet" type="text/css" href="__PUBLIC__/webuploader-0.1.5/style.css">
+     <script type="text/javascript" src="__PUBLIC__/webuploader-0.1.5/webuploader.js"></script>
+     <script type="text/javascript" src="__PUBLIC__/webuploader-0.1.5/js/upload.js"></script>
+ </head>
+ <body>
+    <include file="Common:head_nav" />
+
+    <div id="wrap"><!-- wrap -->
+        <div id="page-main" class="container art-container" style="margin-top: 75px;">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <div class="row">
+                        <ol class="breadcrumb" style="margin-bottom:2px;">
+                            <li><a href="<{:U('User/article')}>">用户中心</a></li>
+                            <li><a href="<{:U('User/album')}>">我的相册</a></li>
+                            <li class="active">上传图片</li>
+                        </ol>
+
+                        <div id="uploader" class="padding20">
+                            <nav class="navbar navbar-default">
+                                <a class="navbar-brand" href="javascript:;"><span style="font-size:14px;">选择相册：</span></a>
+                                <select id="album_id" name="album_id" class="form-control" style="width: 115px;margin-bottom: 8px;margin-top: 8px;">
+                                    <{$album_select}>
+                                </select>
+                                <input type='hidden' name="user_id" id="user_id" value="<{$Think.session.es_user.user_id}>" />
+                            </nav>
+
+                            <div class="queueList">
+                                <div id="dndArea" class="placeholder">
+                                    <div id="filePicker"></div>
+                                    <p>或将照片拖到这里，单次最多可选300张</p>
+                                </div>
+                            </div>
+                            <div class="statusBar" style="display:none;">
+                                <div class="progress">
+                                    <span class="text">0%</span>
+                                    <span class="percentage"></span>
+                                </div><div class="info"></div>
+                                <div class="btns">
+                                    <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--/.col-xs-12.col-sm-9-->
+            </div><!--/row-->
+        </div> <!-- /container -->
+
+    </div>
+
+    <script>
+
+    </script>
+<include file="Common:foot" />

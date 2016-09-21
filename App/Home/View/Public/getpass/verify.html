@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>享得</title>
+
+    <include file="Common:head" />
+
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+    <style>
+        .send_verify_code{
+            background: #f7f7f7 none repeat scroll 0 0;
+            border: 1px solid #ccc;
+            color: #666;
+            height: 36px;
+            line-height: 36px;
+            width: 120px;
+        }
+    </style>
+ </head>
+<body>
+    <include file="Common:head_nav" />
+    
+    <div class="container art-container login-div">
+        <div class="form-group" style="border-bottom: 1px solid #ccc;" >
+            <h3>找回密码 <span style="font-size:12px;"> - 安全验证</span></h3>
+        </div>
+        <div class="row" style="padding: 0 20px;">
+            <div class="col-xs-12 col-sm-12">
+                <form action="<{:U('do_verify','','')}>" id="verify_form" method="POST" class="form-horizontal wt-form" novalidate>
+                <div class="form-group">
+                    <label for="user_name">验证方式</label>
+                    <input type="hidden" name="user_name" value="<{$user_info.user_name}>" class="form-control" id="user_name" >
+
+                    <select id="verify_method" name="verify_method" class="form-control" style="width: 233px;">
+                        <option value="email"><{$user_info.user_name}></option>
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="verify_code">验证码</label>
+                    <div>
+                    <input style="display:inline;width: 70%;margin-right: 10px;" type="text" name="verify_code" class="form-control" id="verify_code" placeholder="验证码">
+                        <a class="send_verify_code" href="javascript:void(0)" >发送验证码</a><br>
+                        <span id="code_mess"></span>
+                    </div>
+                    </div>
+
+                <div class="form-group">
+                    <button  class="btn btn-success" type="submit">下一步</button>
+                </div>   
+                </form> 
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var $form = $('#verify_form');
+        $($form).ajaxForm({
+        url:$($form).attr('action'),
+        type:"POST",
+        dataType:"json",
+        success:function(r,stat,xhr,form){
+            if(r.status) {
+                if(r.url&&r.url!=''){
+                setTimeout(function(){
+                    window.location.href=r.url;
+                },1000);
+                }
+            }else if(r.status == 0){
+                alert(r.info);
+            }
+        }
+    });
+
+        $('.send_verify_code').click(function(){
+            var verify_method = $("#verify_method");
+            jQuery.ajax({
+                dataType:"json",
+                type:"POST",
+                url:"/public/sendcode",
+                data:"verify_method="+verify_method.val()+"&user_name="+verify_method.text(),
+                success:function(r,stat,xhr,form){
+                    if(r.status) {
+                        $('#code_mess').html(r.info);
+                    }else if(r.status == 0){
+                        $('#code_mess').html(r.info);
+                    }
+                }
+            });
+        });
+    </script>
+<include file="Common:foot" />
+

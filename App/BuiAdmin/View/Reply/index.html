@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form class="form-inline definewidth m20" action="" method="get">
+            文章标题：
+            <input type="text" name="art_title" id="art_title"class="abc input-default" placeholder="文章标题" value="<{$art_title}>">&nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
+        </form>
+        <table class="table table-bordered table-hover definewidth m10">
+            <thead>
+            <tr>
+                <th style="width: 4%" class="head0 nosort"><input type="checkbox" /></th>
+                <th>文章标题</th>
+                <th>用户</th>
+                <th>评论内容</th>
+                <th>评论时间</th>
+                <th>是否显示</th>
+                <th>管理操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <volist name="reply_list" id="reply">
+                <tr>
+                    <td><span class="center"><input type="checkbox" /></span></td>
+                    <td><{$reply.title}></td>
+                    <td><{$reply.real_name}></td>
+                    <td><{$reply.content|msubstr=0,50,'utf-8',true}></td>
+                    <td><{$reply.add_time|date="Y-m-d H:i",###}></td>
+                    <td><if condition="$reply['status'] eq 1">显示<else />隐藏</if></td>
+                    <td>
+                        <a href="javascript:void(0)" id="<{$reply.reply_id}>" onclick="ajaxDelete('__URL__/delete','{id:'+this.getAttribute('id')+'}')">删除</a>
+                    </td>
+                </tr>
+                </volist>
+                <tr>
+                    <td class="fy" colspan="15"><ul class="pagination"><{$page}></ul></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+
+    </script>
+</body>
+</html>

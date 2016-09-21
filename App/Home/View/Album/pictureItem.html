@@ -1,0 +1,15 @@
+<volist name="picture_list" id="picture" empty="">
+	<div pid="<{$picture.id}>" class="cell" data-src="__UPLOADS__<{$picture.pic_url}>">
+		<a target="_blank" href="__UPLOADS__<{$picture.pic_url}>"><img src="__UPLOADS__<{$picture.pic_url}>" /></a>
+		<div style="text-align: right;height: 30px;line-height: 30px;">
+			<span class="item-line"></span>
+			<a id="<{$picture.id}>" title="下载"  href="<{:U('Album/downPic',array('id'=>$picture['id']))}>" >
+				下载
+			</a>
+			<span class="item-line"></span>
+			<a id="<{$picture.id}>" title="删除"  href="javascript:;" onclick="ajaxDelete('<{:U(\'Album/delPic\')}>','{id:'+this.getAttribute('id')+',album_id:<{$album_id}>}')">
+				删除
+			</a>
+		</div>
+	</div>
+</volist>

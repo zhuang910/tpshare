@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>专题中心-享得</title>
+
+    <include file="Common:head" />
+     <style>
+         .thumbnail {
+             text-align: center;
+         }
+
+     </style>
+ </head>
+ <body>
+    <include file="Common:head_nav" />
+
+    <div id="wrap"><!-- wrap -->
+        <div id="page-main" class="container art-container">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <div class="row">
+
+                    <ol class="breadcrumb" style="margin-bottom:2px;">
+                        <li><a href="<{:U('Index/index')}>">首页</a></li>
+                        <li class="active">专题中心</li>
+                    </ol>
+
+                    <!--<form class="form-inline definewidth" action="" method="get" style="padding-bottom:2px;border-bottom:1px dotted #ccc">-->
+                        <!--<input class="form-control" type="text" placeholder="请输入关键字" name="tit_kw" value="<{$tit_kw}>" />-->
+                        <!--<button type="submit" class="btn btn-primary" >搜索</button>-->
+                    <!--</form>-->
+
+                    <div class="padding20">
+                        <div class="col-md-12 col-lg-12 col-sm-12">
+                        <volist name="topic_list" id="topic">
+                            <div class="col-sm-6 col-md-4 col-lg-3 topic_div">
+                                <div class="thumbnail">
+                                    <a href="<{:U(\'Article/tarticle/\',array('tid'=>$topic['id']))}>" title="<{$topic.name}>">
+                                        <img class="lazy" src="__UPLOADS__/topic_face/<{$topic.face_pic}>" width="300" height="150" alt="<{$topic.name}>">
+                                    </a>
+                                    <div class="caption">
+                                        <h3>
+                                            <a href="<{:U(\'Article/tarticle/\',array('tid'=>$topic['id']))}>" title="<{$topic.name}>"><{$topic.name}></a>
+                                        </h3>
+                                        <span>
+                                            <{$topic.desc}>
+                                        </span>
+                                    </div>
+                                    <div style="border-top: 1px solid #eee;">
+                                        <ul class="clearfix" style="margin-bottom:0">
+                                            <li style="float: right;height: 30px;line-height:30px;">
+                                                <a style="text-align: center" href="<{:U(\'Article/tarticle/\',array('tid'=>$topic['id']))}>">文章...</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </volist>
+                        </div>
+                        <div style="text-align: right;">
+                            <ul class="pagination" style="float: none;"><{$page}></ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!--/.col-xs-12.col-sm-9-->
+        </div><!--/row-->
+    </div> <!-- /container -->
+    </div>
+
+<include file="Common:foot" />

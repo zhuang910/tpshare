@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>享得</title>
+
+    <include file="Common:head" />
+
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+
+ </head>
+<body>
+    <include file="Common:head_nav" />
+    
+    <div class="container art-container login-div">
+        <div class="form-group" style="border-bottom: 1px solid #ccc;" >
+            <h3>找回密码 <span style="font-size:12px;"> - 确认账号</span></h3>
+        </div>
+        <div class="row" style="padding: 0 20px;">
+            <div class="col-xs-12 col-sm-8">
+                <form action="<{:U('getpass','','')}>" id="getpass_form" method="POST" class="form-horizontal wt-form" novalidate>
+                <div class="form-group">
+                    <label for="user_name">请填写您需要找回的帐号</label>
+                    <input type="text" name="uemail" class="form-control" id="uemail" placeholder="邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="password">验证码</label>
+                    <div>
+                    <input style="display:inline;width: 70%;margin-right: 10px;" type="text" name="vcode" class="form-control" id="vcode" placeholder="验证码">
+                    <a class="vcode-img-change" href="javascript:void(0)" >换一张</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <img id="vcodepic" src="<{:U(\'Public/verify\')}>">
+                </div>
+                <div class="form-group">
+                    <button  class="btn btn-success" type="submit"> 下一步 </button>
+                </div>   
+                </form> 
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var $form = $('#getpass_form');
+            $($form).ajaxForm({
+            url:$($form).attr('action'),
+            type:"POST",
+            dataType:"json",
+            success:function(r,stat,xhr,form){
+                if(r.status) {
+                    window.location.href=r.url;
+                }else if(r.status == 0){
+                    alert(r.info);
+                }
+            }
+        });
+
+        $('.vcode-img-change').click(function(){
+            $('#vcodepic').attr('src', "/Public/verify.html?" + Math.random());
+        });
+    </script>
+<include file="Common:foot" />
+

@@ -1,0 +1,36 @@
+<volist name="article_list" id="article" empty="">
+  <div class="article" aid="<{$article.article_id}>">
+    <h3><a href="<{:U(\'Article/view/\',array('id'=>$article['article_id']))}>"><{$article.title}></a></h3>
+    <div class="article-meta">
+        <div class="float-left">
+        <a class="avatar avatar-30" size="30" name="true"
+           title="<{$article.real_name}>" href="javascript:;">
+            <span class="avatar-face">
+                <if condition="$article['portrait_subname']">
+                    <img src="__UPLOADS__/portrait/<{$article.portrait_subname}>/50_50<{$article.portrait_ext}>" alt="<{$article.real_name}>">
+                <else />
+                    <img src="__HOME__/images/50_50.png" alt="<{$article.real_name}>">
+                </if>
+            </span>
+            <span class="avatar-name"><{$article.real_name}></span>
+        </a>
+         |
+        <a class="category-name" href="<{:U(\'Search/index/\',array('cat_name'=>$article['cat_name']))}>"><{$article.cat_name}></a>
+         |
+         <span class="published"><{$article.add_time|date="Y-m-d H:i",###}></span>
+        </div>
+        <!--<if condition = "$article['user_id'] eq $Think.session.es_user.user_id ">-->
+            <!--<div class="float-right">-->
+            <!--<a href="<{:U(\'Article/update/\',array('id'=>$article['article_id']))}>">编辑</a>-->
+            <!--</div>-->
+        <!--</if>-->
+        <div class="clear"></div>
+    </div>
+    <div class="article-summary article-markdown">
+        <{$article.content|msubstr=0,300,'utf-8',true}>
+    </div>
+    <div class="article-footer">
+        <a href="<{:U(\'Article/view/\',array('id'=>$article['article_id']))}>">阅读全文<i class="icon-double-angle-right"></i></a>
+    </div>
+</div><!--/.col-xs-6.col-lg-12-->
+</volist>

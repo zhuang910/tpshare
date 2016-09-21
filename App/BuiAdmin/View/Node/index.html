@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form class="form-inline definewidth m20" action="" method="get">
+            节点名称：
+            <input type="text" name="node_name" id="node_name"class="abc input-default" placeholder="节点名称" value="<{$node_name}>">&nbsp;&nbsp; 
+            <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; 
+            <button type="button" class="btn btn-success" onclick="javascript:window.location.href='<{:U(\'Node/add\')}>'">新增节点</button>
+        </form>
+        <table class="table table-bordered table-hover definewidth m10">
+            <thead>
+            <tr>
+                <th style="width: 4%" class="head0 nosort"><input type="checkbox" /></th>
+                <th>编号</th>
+                <th>节点名称</th>
+                <th>节点URL</th>
+                <th>管理操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <volist name="node_list" id="node">
+                <tr>
+                    <td><span class="center"><input type="checkbox" /></span></td>
+                    <td><{$node.node_id}></td>
+                    <td><{$node.node_name}></td>
+                    <td><{$node.node_url}></td>
+                    <td>
+                        <a href="<{:U('Node/update',array('id'=>$node['node_id']))}>">编辑</a>
+                        <a href="javascript:void(0)" id="<{$node.node_id}>" onclick="ajaxDelete('__URL__/delete','{id:'+this.getAttribute('id')+'}')">删除</a>
+                    </td>
+                </tr>
+                </volist>
+                <tr>
+                    <td class="fy" colspan="15"><ul class="pagination"><{$page}></ul></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+
+    </script>
+</body>
+</html>

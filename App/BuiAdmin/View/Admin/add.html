@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form action="__URL__/insert" id="form" method="post" class="definewidth m20">
+            <table class="table table-bordered table-hover m10">
+                <tr>
+                    <td class="tableleft">用户名</td>
+                    <td><input type="text" name="admin_name" value="" class="form-control input-xlarge" placeholder="请输入用户名"/></td>
+                </tr>
+                <tr>
+                    <td class="tableleft">密码</td>
+                    <td><input type="password" name="password" value="" class="form-control input-xlarge" placeholder="请输入密码" /></td>
+                </tr>
+                <tr>
+                    <td class="tableleft">昵称</td>
+                    <td><input type="text" name="nick_name" class="form-control input-xlarge" placeholder="请输入昵称"/></td>
+                </tr>
+                <tr>
+                    <td class="tableleft">角色</td>
+                    <td>
+                        <select name="role_id" class="form-control input-medium">
+                            <option value="0">请选择角色</option>
+                            <volist name="role_list" id="role">
+                                <option value="<{$role.role_id}>"><{$role.role_name}></option>  
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableleft"></td>
+                    <td>
+                        <button type="submit" class="btn btn-primary" type="button">保存</button> &nbsp;&nbsp;
+                        <button type="button" class="btn btn-success" name="backid" onclick="javascript:window.location.href='<{:U(\'Admin/index\')}>'">返回列表</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    
+<script>
+    //表单ajax提交
+    var $form = $('#form');
+    commonAjaxForm($($form).attr('action'),$form);
+</script>
+</body>
+</html>

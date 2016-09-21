@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form action="__URL__/insert" id="form" method="post" class="definewidth m20">
+            <table class="table table-bordered table-hover m10">
+                <tr>
+                    <td width="10%" class="tableleft">父级菜单</td>
+                    <td>
+                        <select name="pid" class="form-control input-medium">
+                            <option value="0">顶级菜单</option>
+                            <volist name="module_list" id="module">
+                                <option value="<{$module.module_id}>"><{$module.module_name}></option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableleft">菜单名称</td>
+                    <td><input type="text" name="module_name" class="form-control input-xlarge" /></td>
+                </tr>
+                <tr>
+                    <td class="tableleft"></td>
+                    <td>
+                        <button type="submit" class="btn btn-primary" type="button">保存</button> &nbsp;&nbsp;
+                        <button type="button" class="btn btn-success" name="backid" onclick="javascript:window.location.href='<{:U(\'Module/index\')}>'">返回列表</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    
+    <script>
+        //表单ajax提交
+        var $form = $('#form');
+        commonAjaxForm($($form).attr('action'),$form);
+
+    </script>
+</body>
+</html>

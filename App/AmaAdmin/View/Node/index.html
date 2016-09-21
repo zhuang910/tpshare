@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Common:head" />
+<!--<script type="text/javascript" src="__JS__/plugins/jquery.dataTables.min.js"></script>-->
+<!--<script type="text/javascript" src="__JS__/custom/tables.js"></script>-->
+</head>
+<body class="withvernav">
+<div class="bodywrapper">
+    <include file="Common:topHeader" />
+    <include file="Common:headerMenu" />
+    <include file="Common:leftMenu" />
+        
+    <div class="centercontent">
+        <div class="contenttitle2" style="width: 100%;">
+            <div class="title_left" style="float:left;"><h3>节点列表</h3></div>
+            <div class="title_right" style="float: right;">
+                <span><a href="<{:U('Node/add')}>" >添加</a></span>
+            </div>
+        </div><!--contenttitle-->
+                <table cellpadding="0" cellspacing="0" border="0" class="stdtable" id="dyntable2">
+                    <colgroup>
+                        <col class="con0" style="width: 4%" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                          <th class="head0 nosort"><input type="checkbox" /></th>
+                            <th class="head0">编号</th>
+                            <th class="head1">节点名称</th>
+                            <th class="head0">节点URL</th>
+                            <th class="head1">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <volist name="node_list" id="node">
+                        <tr class="gradeX">
+                            <td align="center">
+                              <span class="center"><input type="checkbox" /></span>
+                            </td>
+                            <td><{$node.node_id}></td>
+                            <td><{$node.node_name}></td>
+                            <td><{$node.node_url}></td>
+                            <td class="center">
+                                <a href="<{:U('Node/update',array('id'=>$node['node_id']))}>" >修改</a>
+                                <a href="javascript:void(0)" id="<{$node.node_id}>" class="delete">删除</a>
+                            </td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="fy" colspan="15"><ul class="pagination"><{$page}></ul></td>
+                        </tr>
+                    </tfoot>
+                </table>
+	</div><!-- centercontent -->
+        <include file="Common:foot" />
+</div><!--bodywrapper-->
+
+<script>
+    jQuery(function() {
+        
+        jQuery(".delete").click(function(){
+            var del = jQuery(this);
+            popup.confirm('真的要删除该节点吗?','温馨提示',function(action){
+                if(action == 'ok'){
+                    var id = jQuery(del).attr('id');
+                    jQuery.ajax({
+                        dataType:"json",
+                        type:"POST",
+                        url:"__URL__/delete",
+                        data:{id:id},
+                        success:function(r,stat,xhr,form){
+                            if(r.status) {
+                                alert(r.info);
+                                if(r.url&&r.url!=''){
+                                setTimeout(function(){
+                                    top.window.location.href=r.url;
+                                },1000);
+                                }
+                            }else if(r.status == 0){
+                                alert(r.info); 
+                            }
+                        }
+                    })
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+@charset "utf-8";
+
+.article{overflow: hidden;}
+.article .article-meta {
+    color: #d7d7d7;
+    margin-bottom: 10px;
+}
+
+.article .avatar .avatar-face img {
+    background: #f7f7f7 none repeat scroll 0 0;
+    border-radius: 50%;
+    box-shadow: 0 0 1px #ddd;
+    height: 30px;
+    width: 30px;
+}
+
+.article .article-meta .published {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.article .article-meta a.category-name {
+    margin-left: 5px;
+}
+.article .article-markdown {
+    font-size: 16px;
+    line-height: 200%;
+}

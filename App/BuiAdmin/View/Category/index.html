@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form class="form-inline definewidth m20" action="" method="get">
+            <button type="button" class="btn btn-success" onclick="javascript:window.location.href='<{:U(\'Category/add\')}>'">新增分类</button>
+        </form>
+        <table class="table table-bordered table-hover definewidth m10" id="list-table">
+            <thead>
+                <tr>
+                    <th>分类名称</th>
+                    <th>管理操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="category_list" id="category">
+                <tr class="<{$category.level}>" id="<{$category.level}>_<{$category.cat_id}>">
+                    <td>
+                        <img src="__PUBLIC__/images/menu_minus.gif" id="icon_<{$category.level}>_<{$category.cat_id}>" style="margin-left: <{$category.level}>em" onclick="rowClicked(this)" />
+                        <{$category.category_name}></td>
+                    <td>
+                        <a href="<{:U('Category/update',array('id'=>$category['cat_id']))}>">编辑</a>
+                        <a href="javascript:void(0)" id="<{$category.cat_id}>" onclick="ajaxDelete('__URL__/delete','{id:'+this.getAttribute('id')+'}')">删除</a>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        var imgPlus = new Image();
+imgPlus.src = "__PUBLIC__/images/menu_plus.gif";
+        /**
+ * 折叠分类列表
+ */
+function rowClicked(obj)
+{
+   // 当前图像
+  img = obj;
+  // 取得上二级tr>td>img对象
+  obj = obj.parentNode.parentNode;
+  // 整个分类列表表格
+  var tbl = document.getElementById("list-table");
+  // 当前分类级别
+  var lvl = parseInt(obj.className);
+  // 是否找到元素
+  var fnd = false;
+  var sub_display = img.src.indexOf('__PUBLIC__/images/menu_minus.gif') > 0 ? 'none' : 'table-row';
+  // 遍历所有的分类
+
+  for (i = 0; i < tbl.rows.length; i++)
+  {
+      var row = tbl.rows[i];
+      if (row == obj)
+      {
+          // 找到当前行
+          fnd = true;
+          //document.getElementById('result').innerHTML += 'Find row at ' + i +"<br/>";
+      }
+      else
+      {
+          if (fnd == true)
+          {
+              var cur = parseInt(row.className);
+              var icon = 'icon_' + row.id;
+              if (cur > lvl)
+              {
+                  row.style.display = sub_display;
+                  if (sub_display != 'none')
+                  {
+                      var iconimg = document.getElementById(icon);
+                      iconimg.src = iconimg.src.replace('plus.gif', 'minus.gif');
+                  }
+              }
+              else
+              {
+                  fnd = false;
+                  break;
+              }
+          }
+      }
+  }
+
+  for (i = 0; i < obj.cells[0].childNodes.length; i++)
+  {
+      var imgObj = obj.cells[0].childNodes[i];
+      if (imgObj.tagName == "IMG" && imgObj.src != 'images/menu_arrow.gif')
+      {
+          imgObj.src = (imgObj.src == imgPlus.src) ? '__PUBLIC__/images/menu_minus.gif' : imgPlus.src;
+      }
+  }
+}
+    </script>
+</body>
+</html>

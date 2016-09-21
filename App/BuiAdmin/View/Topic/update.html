@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+    <!--webuploader-->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/webuploader-0.1.5/webuploader.css">
+    <script type="text/javascript" src="__PUBLIC__/webuploader-0.1.5/webuploader.js"></script>
+</head>
+<body>
+    <div class="">
+        <form action="__URL__/update" method="post" id="form" class="definewidth m20">
+            <table class="table table-bordered table-hover m10">
+                <tr>
+                    <td class="tableleft">专题名称</td>
+                    <td><input type="text" name="name" value="<{$topic_info.name}>" class="form-control input-xlarge" /></td>
+                </tr>
+                <tr>
+                    <td width="10%" class="tableleft">父级专题</td>
+                    <td>
+                        <select name="pid" class="form-control input-medium">
+                            <option value="0">父级专题</option>
+                            <{$ptopic_select}>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableleft"><strong style="color:red;">*</strong>标示图</td>
+                    <td>
+                        <div id="uploader">
+                            <!--用来存放item-->
+                            <div id="fileList" class="uploader-list">
+                                <img class="lazy" src="__UPLOADS__/topic_face/<{$topic_info.face_pic}>" alt="<{$topic.name}>">
+                            </div>
+                            <div id="filePicker">选择图片</div>
+                            <input id="face_pic" type="hidden" name="face_pic" value="<{$topic_info.face_pic}>" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableleft">描述</td>
+                    <td><textarea name="desc" class="form-control input-xlarge" rows="3"><{$topic_info.desc}></textarea></td>
+                </tr>
+                <tr>
+                    <td class="tableleft"></td>
+                    <td>
+                        <input type='hidden' name="id" value="<{$topic_info.id}>" />
+                        <button type="submit" class="btn btn-primary">保存</button> &nbsp;&nbsp;
+                        <button type="button" class="btn btn-success" name="backid" onclick="javascript:window.location.href='<{:U(\'Topic/index\')}>'">返回列表</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script>
+        //表单ajax提交
+        var $form = $('#form');
+        commonAjaxForm($($form).attr('action'),$form);
+
+
+        $(function () {
+            var $wrap = $('#uploader'),
+            // 图片容器
+                    $list = $('#fileList'),
+            // 状态栏，包括进度和控制按钮
+                    $statusBar = $wrap.find('.statusBar'),
+            // 文件总体选择信息。
+                    $info = $statusBar.find('.info'),
+            // 上传按钮
+                    $upload = $wrap.find('.uploadBtn'),
+            // 没选择文件之前的内容。
+                    $placeHolder = $wrap.find('.placeholder'),
+                    $progress = $statusBar.find('.progress').hide(),
+            // 添加的文件数量
+                    fileCount = 0,
+            // 添加的文件总大小
+                    fileSize = 0,
+            // 优化retina, 在retina下这个值是2
+                    ratio = window.devicePixelRatio || 1,
+            // 缩略图大小
+                    thumbnailWidth = 110 * ratio,
+                    thumbnailHeight = 110 * ratio,
+            // 可能有pedding, ready, uploading, confirm, done.
+                    state = 'pedding',
+            // 所有文件的进度信息，key为file id
+                    percentages = {},
+            // 判断浏览器是否支持图片的base64
+                    isSupportBase64 = (function () {
+                        var data = new Image();
+                        var support = true;
+                        data.onload = data.onerror = function () {
+                            if (this.width != 1 || this.height != 1) {
+                                support = false;
+                            }
+                        }
+                        data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+                        return support;
+                    })(),
+            // 检测是否已经安装flash，检测flash的版本
+                    flashVersion = (function () {
+                        var version;
+
+                        try {
+                            version = navigator.plugins[ 'Shockwave Flash' ];
+                            version = version.description;
+                        } catch (ex) {
+                            try {
+                                version = new ActiveXObject('ShockwaveFlash.ShockwaveFlash')
+                                        .GetVariable('$version');
+                            } catch (ex2) {
+                                version = '0.0';
+                            }
+                        }
+                        version = version.match(/\d+/g);
+                        return parseFloat(version[ 0 ] + '.' + version[ 1 ], 10);
+                    })(),
+                    supportTransition = (function () {
+                        var s = document.createElement('p').style,
+                                r = 'transition' in s ||
+                                        'WebkitTransition' in s ||
+                                        'MozTransition' in s ||
+                                        'msTransition' in s ||
+                                        'OTransition' in s;
+                        s = null;
+                        return r;
+                    })(),
+            // WebUploader实例
+                    uploader;
+
+            // 实例化
+            uploader = WebUploader.create({
+
+                auto: true,
+                pick: {
+                    id: '#filePicker',
+                    label: '点击选择图片'
+                },
+
+                paste: '#uploader',
+                swf: '/Public/Public/webuploader-0.1.5/Uploader.swf',
+                chunked: false,
+                chunkSize: 100 * 100,
+                server: '__URL__/doupload',
+                // runtimeOrder: 'flash',
+
+                accept: {
+                    title: 'Images',
+                    extensions: 'gif,jpg,jpeg,bmp,png',
+                    mimeTypes: 'image/*'
+                },
+
+                // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
+                disableGlobalDnd: true,
+                fileNumLimit: 300,
+                fileSizeLimit: 200 * 1024 * 1024, // 200 M
+                fileSingleSizeLimit: 50 * 1024 * 1024    // 50 M
+            });
+
+            // 当有文件添加进来的时候
+            uploader.on( 'fileQueued', function( file ) {
+                var $li = $(
+                                '<div id="' + file.id + '" class="file-item">' +
+                                '<img>' +
+                                '<div class="info">' + file.name + '</div>' +
+                                '</div>'
+                        ),
+                        $img = $li.find('img');
+
+
+                // $list为容器jQuery实例
+                $list.html( $li );
+
+                // 创建缩略图
+                // 如果为非图片文件，可以不用调用此方法。
+                // thumbnailWidth x thumbnailHeight 为 100 x 100
+                uploader.makeThumb( file, function( error, src ) {
+                    if ( error ) {
+                        $img.replaceWith('<span>不能预览</span>');
+                        return;
+                    }
+
+                    $img.attr( 'src', src );
+                }, thumbnailWidth, thumbnailHeight );
+            });
+
+
+            // 文件上传过程中创建进度条实时显示。
+            uploader.on( 'uploadProgress', function( file, percentage ) {
+                var $li = $( '#'+file.id ),
+                        $percent = $li.find('.progress span');
+
+                // 避免重复创建
+                if ( !$percent.length ) {
+                    $percent = $('<p class="progress"><span></span></p>')
+                            .appendTo( $li )
+                            .find('span');
+                }
+
+                $percent.css( 'width', percentage * 100 + '%' );
+            });
+
+// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+            uploader.on( 'uploadSuccess', function( file ,r) {
+                $('#face_pic').val(r.data.pic_name);
+                $( '#'+file.id ).addClass('upload-state-done');
+            });
+
+// 文件上传失败，显示上传出错。
+            uploader.on( 'uploadError', function( file ) {
+                var $li = $( '#'+file.id ),
+                        $error = $li.find('div.error');
+
+                // 避免重复创建
+                if ( !$error.length ) {
+                    $error = $('<div class="error"></div>').appendTo( $li );
+                }
+
+                $error.text('上传失败');
+            });
+
+// 完成上传完了，成功或者失败，先删除进度条。
+            uploader.on( 'uploadComplete', function( file ) {
+
+                $( '#'+file.id ).find('.progress').remove();
+            });
+
+        });
+    </script>
+</body>
+</html>

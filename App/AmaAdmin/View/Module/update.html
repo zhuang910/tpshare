@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Common:head" />
+<!--<script type="text/javascript" src="__JS__/plugins/jquery.dataTables.min.js"></script>-->
+<!--<script type="text/javascript" src="__JS__/custom/tables.js"></script>-->
+</head>
+
+<body class="withvernav">
+<div class="bodywrapper">
+    <include file="Common:topHeader" />
+    <include file="Common:headerMenu" />
+    <include file="Common:leftMenu" />
+        
+    <div class="centercontent">
+        <div class="contenttitle2" style="width: 100%;">
+            <div class="title_left" style="float:left;"><h3>添加菜单模块</h3></div>
+            <div class="title_right" style="float: right;">
+                <span><a href="<{:U('Module/index')}>">菜单列表</a></span>
+            </div>
+        </div><!--contenttitle-->
+        <div class="content">
+            <form action="__URL__/edit" id="moduleform" class="form-horizontal" method="post" >
+                <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">菜单名称：</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="module_name" value="<{$module_info.module_name}>" class="form-control input-xlarge" id="firstname" placeholder="请输入菜单名称" >
+                    </div>
+                 </div>
+                 <div class="form-group">
+                    <label for="lastname" class="col-sm-2 control-label">菜单URL:</label>
+                    <div class="col-sm-10">
+                       <input type="text" name="module_url" value="<{$module_info.module_url}>" class="form-control input-xlarge" id="lastname" placeholder="请输入菜单URL">
+                    </div>
+                 </div>
+                <div class="form-group">
+                    <label for="lastname" class="col-sm-2 control-label">父菜单：</label>
+                    <div class="col-sm-10">
+                       <select class="form-control input-medium" name="pid">
+                        <option value="0">顶级菜单</option>
+                        <volist name="pmodule_list" id="module">
+                            <option <if condition="$module_info['pid'] eq $module['module_id']">selected</if>  value="<{$module.module_id}>"><{$module.module_name}></option>
+                        </volist>
+                      </select>
+                    </div>
+                 </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type='hidden' name="module_id" value="<{$module_info.module_id}>" />
+                       <button class="submit btn btn-primary">保 存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+	</div><!-- centercontent -->
+        <include file="Common:foot" />
+</div><!--bodywrapper-->
+
+<script>
+    var $form = jQuery('#moduleform');
+    jQuery($form).ajaxForm({
+        dataType:"json",
+        success:function(r,stat,xhr,form){
+            if(r.status) {
+                alert(r.info);
+                if(r.url&&r.url!=''){
+                setTimeout(function(){
+                    top.window.location.href=r.url;
+                },1000);
+                }
+            }else if(r.status == 0){
+                alert(r.info); 
+            }
+        }
+}); 
+</script>
+
+</body>
+</html>

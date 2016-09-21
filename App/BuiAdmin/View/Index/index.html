@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <title>管理系统</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <link href="__ADMIN_BUIADMIN__/bui/css/bs3/dpl.css" rel="stylesheet" type="text/css" />
+   <link href="__ADMIN_BUIADMIN__/bui/css/bs3/bui.css" rel="stylesheet" type="text/css" />
+   <link href="__ADMIN_BUIADMIN__/css/main.css" rel="stylesheet" type="text/css" />
+   <style>
+       #Bottom{
+           bottom: 0;
+           background-color: #e8e9ee;
+    color: #5c637b;
+    font-family: "microsoft yahei";
+    font-size: 12px;
+    height: 25px;
+    line-height: 25px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    z-index: 99999;
+       }
+       </style>
+ </head>
+ <body>
+   <div class="header">
+    <div class="dl-title"><span class="">ES.ADMIN</span></div>
+    <div class="dl-log">欢迎您，<span class="dl-log-user"><{$Think.session.esadmin_user.nick_name}></span>
+        <a href="<{:U('Public/logout')}>" title="退出系统" class="dl-log-quit">[退出]</a>
+    </div>
+   </div>
+   <div class="content">
+    <div class="dl-main-nav">
+      <ul id="J_Nav"  class="nav-list ks-clear">
+          <volist name="top_module_list" id="top_module">
+              <li class="nav-item dl-selected"><div class="nav-item-inner nav-storage"><{$top_module.module_name}></div></li>
+        </volist>
+      </ul>
+    </div>
+    <ul id="J_NavContent" class="dl-tab-conten">
+ 
+    </ul>
+      
+   </div>
+    <div id="Bottom">© 2015 eshare.com All rights reserved 联系我们 </div>
+  <script type="text/javascript" src="__ADMIN_BUIADMIN__/js/jquery-1.8.1.min.js"></script>
+  <script type="text/javascript" src="__ADMIN_BUIADMIN__/js/bui-min.js"></script>
+  <script type="text/javascript" src="__ADMIN_BUIADMIN__/js/config-min.js"></script>
+  <script>
+    //菜单显示
+    BUI.use('common/main',function(){
+        $.getJSON('__MODULE__/Common/getMenu',function(config){
+            new PageUtil.MainPage({
+                modulesConfig : config
+            });
+        });
+    });
+  </script>
+ </body>
+</html>

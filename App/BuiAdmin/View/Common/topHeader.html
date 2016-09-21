@@ -1,0 +1,49 @@
+<div class="topheader">
+    <div class="left">
+        <a href='/admin/index/index' title='首页'><h1 class="logo">ES.<span>Admin</span></h1></a>
+        <span class="slogan">后台管理系统</span>
+        <div class="search">
+            <form action="" method="post">
+                    <input type="text" name="keyword" id="keyword" value="" placeholder="请输入" />
+                <button class="submitbutton"></button>
+            </form>
+        </div><!--search-->
+
+        <br clear="all" />
+
+    </div><!--left-->
+
+    <div class="right">
+            <!--<div class="notification">
+            <a class="count" href="ajax/notifications.html"><span>9</span></a>
+            </div>-->
+        <div class="userinfo">
+            <img src="__ADMIN_ADMIN__/images/thumbs/avatar.png" alt="" />
+            <span><{$Think.session.esadmin_user.admin_name}></span>
+        </div><!--userinfo-->
+
+        <div class="userinfodrop">
+            <div class="avatar">
+                    <a href=""><img src="__ADMIN_ADMIN__/images/thumbs/avatarbig.png" alt="" /></a>
+                <div class="changetheme">
+                    切换主题: <br />
+                    <a class="default"></a>
+                    <a class="blueline"></a>
+                    <a class="greenline"></a>
+                    <a class="contrast"></a>
+                    <a class="custombg"></a>
+                </div>
+            </div><!--avatar-->
+            <div class="userdata">
+                <h4><{$Think.session.esadmin_user.admin_name}></h4>
+                <span class="email"><{$Think.session.esadmin_user.admin_name}></span>
+                <ul>
+                    <li><a href="">编辑资料</a></li>
+                    <li><a href="">账号设置</a></li>
+                    <li><a href="">帮助</a></li>
+                    <li><a href="<{:U('Public/logout')}>">退出</a></li>
+                </ul>
+            </div><!--userdata-->
+        </div><!--userinfodrop-->
+    </div><!--right-->
+</div><!--topheader-->

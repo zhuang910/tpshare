@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>享得</title>
+
+    <include file="Common:head" />
+
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+
+ </head>
+<body>
+    <include file="Common:head_nav" />
+
+    <div class="container art-container login-div">
+        <div class="form-group" style="border-bottom: 1px solid #ccc;" >
+            <h3>注册</h3>
+        </div>
+        <div class="row" style="padding: 0 20px;">
+            <div class="col-xs-12 col-sm-11">
+                <form action="<{:U('register','','')}>" id="register_form" method="POST" class="form-horizontal wt-form" novalidate>
+                <div class="form-group">
+                    <label for="user_name">邮箱</label>
+                    <input type="text" name="user_name" class="form-control" id="user_name" placeholder="邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="real_name">真实姓名：</label>
+                    <input type="text" name="real_name" class="form-control" id="real_name" placeholder="真实姓名" />
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="密码">
+                </div>
+                <div class="form-group">
+                    <label for="repassword">确认密码：</label>
+                    <input type="password" name="repassword" class="form-control" id="repassword" placeholder="再输入一次密码" />
+                </div>
+                
+                <div class="form-group">
+                    <button  class="btn btn-success" type="submit">注册新用户</button>
+                </div>   
+                <div class="form-group">
+                    <div >点击注册，表明你同意我们的<a href="javascript:void(0);">服务条款</a></div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var $form = $('#register_form');
+        $($form).ajaxForm({
+        url:$($form).attr('action'),
+        type:"POST",
+        dataType:"json",
+        success:function(r,stat,xhr,form){
+            if(r.status) {
+                alert(r.info);
+                if(r.url&&r.url!=''){
+                setTimeout(function(){
+                    window.location.href=r.url;
+                },1000);
+                }
+            }else if(r.status == 0){
+                alert(r.info);
+            }
+        }
+    });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form action="__URL__/update" method="post" id="form" class="definewidth m20">
+            <table class="table table-bordered table-hover m10">
+                <tr>
+                    <td class="tableleft">分类名称</td>
+                    <td><input type="text" name="category_name" value="<{$category_info.category_name}>" class="form-control input-xlarge" /></td>
+                </tr>
+                <tr>
+                    <td width="10%" class="tableleft">父级分类</td>
+                    <td>
+                        <select name="pid" class="form-control input-medium">
+                            <option value="0">顶级分类</option>
+                            <{$pcat_select}>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableleft"></td>
+                    <td>
+                        <input type='hidden' name="cat_id" value="<{$category_info.cat_id}>" />
+                        <button type="submit" class="btn btn-primary">保存</button> &nbsp;&nbsp;
+                        <button type="button" class="btn btn-success" name="backid" onclick="javascript:window.location.href='<{:U(\'Category/index\')}>'">返回列表</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script>
+        //表单ajax提交
+        var $form = $('#form');
+        commonAjaxForm($($form).attr('action'),$form);
+    
+    </script>
+</body>
+</html>

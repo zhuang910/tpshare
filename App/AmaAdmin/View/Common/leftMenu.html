@@ -1,0 +1,17 @@
+<div class="vernav2 iconmenu">
+    <ul>
+        <volist name="left_menu_list" id="menu_list">
+            <li <if condition="$menu_list['module']['module_id'] eq $current_node_info['module_id']" > class="current" </if> >
+            <a href="#formsub_<{$menu_list.module.module_id}>" class="settings"><{$menu_list.module.module_name}></a>
+            <span class="arrow"></span>
+            <ul id="formsub_<{$menu_list.module.module_id}>" style="display: block;">
+                <volist name="menu_list.node" id="node">
+                    <li <if condition="$current_node_info['node_url'] eq $node['node_url'] || $current_node_info['pid'] eq $node['node_id']">class="current" </if>><a href="<{:U($node['node_url'])}>"><{$node.node_name}></a></li>
+                </volist>
+            </ul>
+            </li>
+        </volist>
+    </ul>
+    <a class="togglemenu"></a>
+    <br /><br />
+</div><!--leftmenu-->

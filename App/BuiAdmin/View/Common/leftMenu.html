@@ -1,0 +1,16 @@
+<div class="vernav2 iconmenu">
+    <ul>
+        <volist name="left_menu_list" id="menu_list">
+            <li><a href="#formsub_<{$menu_list.module.module_id}>" class="settings"><{$menu_list.module.module_name}></a>
+            <span class="arrow"></span>
+            <ul id="formsub_<{$menu_list.module.module_id}>">
+                <volist name="menu_list.node" id="node">
+                    <li><a href="<{:U($node['node_url'])}>"><{$node.node_name}></a></li>
+                </volist>
+            </ul>
+            </li>
+        </volist>
+    </ul>
+    <a class="togglemenu"></a>
+    <br /><br />
+</div><!--leftmenu-->

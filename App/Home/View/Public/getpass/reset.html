@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>享得</title>
+
+    <include file="Common:head" />
+
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+
+ </head>
+<body>
+    <include file="Common:head_nav" />
+    
+    <div class="container art-container login-div">
+        <div class="form-group" style="border-bottom: 1px solid #ccc;" >
+            <h3>找回密码 <span style="font-size:12px;"> - 重置密码</span></h3>
+        </div>
+        <div class="row" style="padding: 0 20px;">
+            <div class="col-xs-12 col-sm-8">
+                <form action="<{:U('reset','','')}>" id="reset_form" method="POST" class="form-horizontal wt-form" novalidate>
+                <div class="form-group">
+                    <label for="user_name">新密码</label>
+                    <input type="password" name="newpass" class="form-control" id="newpass" placeholder="新密码">
+                </div>
+                <div class="form-group">
+                    <label for="password">确认密码</label>
+                    <input type="password" name="renewpass" class="form-control" id="renewpass" placeholder="确认密码">
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="user_id" value="<{$user_info.user_id}>" class="form-control" id="user_" >
+                    <button  class="btn btn-success" type="submit"> 确 定 </button>
+                </div>   
+                </form> 
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var $form = $('#reset_form');
+        $($form).ajaxForm({
+        url:$($form).attr('action'),
+        type:"POST",
+        dataType:"json",
+        success:function(r,stat,xhr,form){
+            if(r.status) {
+                alert(r.info);
+                if(r.url&&r.url!=''){
+                setTimeout(function(){
+                    window.location.href=r.url;
+                },1000);
+                }
+            }else if(r.status == 0){
+                alert(r.info);
+            }
+        }
+    });
+    </script>
+<include file="Common:foot" />
+

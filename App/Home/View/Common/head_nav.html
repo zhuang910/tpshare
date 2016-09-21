@@ -1,0 +1,33 @@
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-fixed-top navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="header_logo" class="navbar-brand" href="<{:U('Index/index')}>"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-left" action="<{:U(\'Search/index\')}>">
+                <div class="form-group">
+                    <input id="kwd" class="form-control" type="text" value="<{$kwd}>" placeholder="搜索文章" name="kwd" size="70" maxlength="40" data-domain="eshare.com">
+                </div>
+            </form>
+          
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="<{:U('Article/add')}>" style="padding:8px;"><button class="btn btn-success">发布文章</button></a></li>
+			    <li><a href="<{:U('Album/upload')}>" style="padding:8px;"><button class="btn btn-success">上传图片</button></a></li>
+                <if condition="$Think.session.es_user.user_id gt 0">
+                    <li><a href="<{:U('User/article')}>"><{$Think.session.es_user.real_name}></a></li>
+                    <li><a href="<{:U('Public/logout')}>">退出</a></li>
+                <else />
+                    <li><a href="<{:U('Public/login')}>">登录</a></li>
+                    <li><a href="<{:U('Public/register')}>">注册</a></li>
+                </if>
+            </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>

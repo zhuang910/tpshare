@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Common:head" />
+</head>
+<body>
+    <div class="">
+        <form class="form-inline definewidth m20" action="" method="get">
+            类型：
+            <select name="type" class="form-control input-medium">
+                <option value="0">全部</option>
+                <volist name="article_type" id="type" key="ktype">
+                    <option value="<{$ktype}>"><{$type}></option>
+                </volist>
+            </select>
+            标题：
+            <input type="text" name="title" id="node_name"class="abc input-default" placeholder="标题" value="<{$title}>">&nbsp;&nbsp; 
+            <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; 
+            <button type="button" class="btn btn-success" onclick="javascript:window.location.href='<{:U(\'Article/add\')}>'">新增文章</button>
+            <button type="button" class="btn btn-success" onclick="javascript:window.location.href='<{:U(\'Article/addTopicArticle\')}>'">新增专题文章</button>
+        </form>
+        <table class="table table-bordered table-hover definewidth m10">
+            <thead>
+            <tr>
+                <th style="width: 4%" class="head0 nosort"><input type="checkbox" /></th>
+                <th>编号</th>
+                <th>标题</th>
+                <th>是否显示</th>
+                <th>管理操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <volist name="article_list" id="article">
+                <tr>
+                    <td><span class="center"><input type="checkbox" /></span></td>
+                    <td><{$article.article_id}></td>
+                    <td><{$article.title}></td>
+                    <td><if condition="$article['is_show'] eq 1">显示<else />隐藏</if></td>
+                    <td>
+                        <a href="<{:U('Article/exportPdf',array('id'=>$article['article_id']))}>">导出PDF</a>
+                        <if condition="$article['type'] eq 1">
+                            <a href="<{:U('Article/update',array('id'=>$article['article_id']))}>">编辑</a>
+                        <elseif condition="$article['type'] eq 2" />
+                            <a href="<{:U('Article/updateTopicArticle',array('id'=>$article['article_id']))}>">编辑</a>
+                        </if>
+                        <a href="javascript:void(0)" id="<{$article.article_id}>" onclick="ajaxDelete('__URL__/delete','{id:'+this.getAttribute('id')+'}')">删除</a>
+                    </td>
+                </tr>
+                </volist>
+                <tr>
+                    <td class="fy" colspan="15"><ul class="pagination"><{$page}></ul></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+
+    </script>
+</body>
+</html>
